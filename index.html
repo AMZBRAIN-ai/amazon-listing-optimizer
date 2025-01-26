@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon Listing Optimizer - File Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .note {
+            font-size: 0.9em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>File Upload Form</h1>
+        <form action="https://amzbrain.app.n8n.cloud/webhook-test/amzbrain" method="POST" enctype="multipart/form-data">
+            <label for="scrapeDoc">Upload Scrape Doc:</label>
+            <input type="file" name="Scrape Doc" id="scrapeDoc" required>
+            
+            <label for="keywordDoc">Upload Keyword Doc:</label>
+            <input type="file" name="Keyword Doc" id="keywordDoc" required>
+            
+            <label for="amazonDoc">Upload Amazon Doc:</label>
+            <input type="file" name="Amazon Doc" id="amazonDoc" required>
+            
+            <label for="urls">Enter URLs (optional):</label>
+            <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
+            
+            <button type="submit">Upload Files</button>
+            <p class="note">* All files are required except URLs.</p>
+        </form>
+    </div>
+</body>
+</html>
