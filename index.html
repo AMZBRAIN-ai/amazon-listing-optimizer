@@ -64,11 +64,14 @@
             <label for="amazonDoc">Upload Amazon Doc:</label>
             <input type="file" name="Amazon Doc" id="amazonDoc" required>
             
-            <label for="urls">Enter URLs (optional):</label>
+            <label for="urls">Enter URLs:</label>
             <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
             
+            <label for="email">E-mail (where you want the output to be sent):</label>
+            <input type="email" name="Email" id="email" placeholder="you@example.com" required>
+            
             <button type="submit">Upload Files</button>
-            <p class="note">* All files are required except URLs.</p>
+            <p class="note">* All files are required.</p>
         </form>
     </div>
 </body>
