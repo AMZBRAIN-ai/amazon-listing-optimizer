@@ -59,6 +59,15 @@
             border: none;
             border-radius: 10px;
         }
+        /* Adjust Google Docs iframe size and zoom out */
+        .google-docs-preview {
+            width: 100%;
+            max-width: 460px;  
+            height: 300px;
+            margin-top: 20px;
+            border: none;
+            transform-origin: 0 0;  /* Keep the scaling from the top-left */
+        }
     </style>
 </head>
 <body>
@@ -86,6 +95,16 @@
 
         <div class="video-frame">
             <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
+        </div>
+        
+        <!-- Google Docs Preview with zoomed-out effect -->
+        <div>
+            <iframe class="google-docs-preview" 
+            allowfullscreen 
+            allow="download"
+            src="https://docs.google.com/document/d/1brOu-JjdwELbU4yMSvMPoQjXSTs9cVgc/edit"
+            
+            ></iframe>
         </div>
     </div>
 </body>
