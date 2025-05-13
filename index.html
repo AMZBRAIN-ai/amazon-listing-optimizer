@@ -68,13 +68,26 @@
             border: none;
       
         }
+        
+        .google-docs-text {
+          font-size:14px;
+          
+          
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>File Upload Form</h1>
+        
+         <div class="video-frame">
+            <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
+           </div>
         <form action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
             <label for="scrapeDoc">Upload Scrape Doc:</label>
+            
+           
+        
             <input type="file" name="Scrape Doc" id="scrapeDoc" required>
             
             <label for="keywordDoc">Upload Keyword Doc:</label>
@@ -93,10 +106,8 @@
             <p class="note">* All files are required.</p>
         </form>
 
-        <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
-        </div>
         
+        <p class="google-docs-text"><b>We’ve prepared a prompt you can use to help remove branded keywords from your Amazon keyword document. Simply copy and paste it into Claude.ai</b></p>
         <!-- Google Docs Preview with adjusted size -->
         <iframe class="google-docs-preview"
             src="https://docs.google.com/viewer?url=https://docs.google.com/document/d/1brOu-JjdwELbU4yMSvMPoQjXSTs9cVgc/export?format=pdf&embedded=true&zoom=100"
