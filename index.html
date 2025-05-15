@@ -74,6 +74,11 @@
           
           
         }
+        small {
+    color: gray;
+    font-size: 10px;
+    font-weight: 200;
+    }
     </style>
 </head>
 <body>
@@ -84,16 +89,17 @@
             <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
            </div>
         <form action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
-            <label for="scrapeDoc">Upload Scrape Doc:</label>
-            
+           
+            <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
            
         
             <input type="file" name="Scrape Doc" id="scrapeDoc" required>
             
-            <label for="keywordDoc">Upload Keyword Doc:</label>
+            <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
+            
             <input type="file" name="Keyword Doc" id="keywordDoc" required>
             
-            <label for="amazonDoc">Upload Amazon Doc:</label>
+            <label for="amazonDoc">Upload Amazon Doc: <small>(upload CSV only)</small></label>
             <input type="file" name="Amazon Doc" id="amazonDoc" required>
             
             <label for="urls">Enter URLs:</label>
