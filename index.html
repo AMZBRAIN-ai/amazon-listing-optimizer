@@ -91,27 +91,33 @@
       <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
     </div>
 
-    <form id="uploadForm" action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
-      <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
-      <input type="file" name="Scrape Doc" id="scrapeDoc" required />
-      <div id="scrapeError" class="error"></div>
+    <!-- ... your previous code ... -->
 
-      <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
-      <input type="file" name="Keyword Doc" id="keywordDoc" required />
-      <div id="keywordError" class="error"></div>
+<form id="uploadForm" action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
+  <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
+  <input type="file" name="Scrape Doc" id="scrapeDoc" required />
+  <div id="scrapeError" class="error"></div>
 
-      <label for="amazonDoc">Upload Amazon Doc:</label>
-      <input type="file" name="Amazon Doc" id="amazonDoc" required />
+  <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
+  <input type="file" name="Keyword Doc" id="keywordDoc" required />
+  <div id="keywordError" class="error"></div>
 
-      <label for="urls">Enter URLs:</label>
-      <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
+  <label for="amazonDoc">Upload Amazon Doc:</label>
+  <input type="file" name="Amazon Doc" id="amazonDoc" required />
 
-      <label for="email">E-mail (where you want the output to be sent):</label>
-      <input type="email" name="Email" id="email" placeholder="you@example.com" required />
+  <label for="urls">Enter URLs:</label>
+  <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
+  <div id="urlError" class="error"></div>
 
-      <button type="submit">Upload Files</button>
-      <p class="note">* All files are required.</p>
-    </form>
+  <label for="email">E-mail (where you want the output to be sent):</label>
+  <input type="email" name="Email" id="email" placeholder="you@example.com" required />
+  <div id="emailError" class="error"></div>
+
+  <button type="submit">Upload Files</button>
+  <p class="note">* All files are required.</p>
+</form>
+
+
 
     <p class="google-docs-text">
       <b>We’ve prepared a prompt you can use to help remove branded keywords from your Amazon keyword document. Simply copy and paste it into Claude.ai</b>
@@ -122,33 +128,53 @@
     </iframe>
   </div>
 
-  <script>
-    document.getElementById('uploadForm').addEventListener('submit', function (e) {
-      const scrapeFile = document.getElementById('scrapeDoc').files[0];
-      const keywordFile = document.getElementById('keywordDoc').files[0];
+<script>
+  document.getElementById('uploadForm').addEventListener('submit', function (e) {
+    const scrapeFile = document.getElementById('scrapeDoc').files[0];
+    const keywordFile = document.getElementById('keywordDoc').files[0];
+    const urlField = document.getElementById('urls');
+    const emailField = document.getElementById('email');
 
-      let hasError = false;
+    let hasError = false;
 
-      const isCsv = file => file && file.name.toLowerCase().endsWith('.csv');
+    const isCsv = file => file && file.name.toLowerCase().endsWith('.csv');
+    const isValidEmail = email =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
-      // Clear previous errors
-      document.getElementById('scrapeError').textContent = '';
-      document.getElementById('keywordError').textContent = '';
+    // Clear previous errors
+    document.getElementById('scrapeError').textContent = '';
+    document.getElementById('keywordError').textContent = '';
+    document.getElementById('urlError').textContent = '';
+    document.getElementById('emailError').textContent = '';
 
-      if (!isCsv(scrapeFile)) {
-        document.getElementById('scrapeError').textContent = 'Scrape Doc must be a .csv file';
-        hasError = true;
-      }
+    // Scrape file check
+    if (!isCsv(scrapeFile)) {
+      document.getElementById('scrapeError').textContent = 'Scrape Doc must be a .csv file';
+      hasError = true;
+    }
 
-      if (!isCsv(keywordFile)) {
-        document.getElementById('keywordError').textContent = 'Keyword Doc must be a .csv file';
-        hasError = true;
-      }
+    // Keyword file check
+    if (!isCsv(keywordFile)) {
+      document.getElementById('keywordError').textContent = 'Keyword Doc must be a .csv file';
+      hasError = true;
+    }
 
-      if (hasError) {
-        e.preventDefault();
-      }
-    });
-  </script>
+    // URL field check (must not be empty or default)
+    if (!urlField.value.trim() || urlField.value.trim().toLowerCase() === 'enter urls here, one per line') {
+      document.getElementById('urlError').textContent = 'Please enter at least one URL';
+      hasError = true;
+    }
+
+    // Email validation
+    if (!emailField.value.trim() || !isValidEmail(emailField.value)) {
+      document.getElementById('emailError').textContent = 'Please enter a valid email address';
+      hasError = true;
+    }
+
+    if (hasError) {
+      e.preventDefault(); // stop form submission
+    }
+  });
+</script>
 </body>
 </html>
