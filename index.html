@@ -1,129 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amazon Listing Optimizer - File Upload</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            font-weight: bold;
-        }
-        input, textarea, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .note {
-            font-size: 0.9em;
-            color: #555;
-        }
-        .video-frame {
-            margin-top: 30px;
-            text-align: center;
-        }
-        .video-frame iframe {
-            width: 100%;
-            height: 315px;
-            border: none;
-            border-radius: 10px;
-        }
-        /* Adjust Google Docs iframe size to ensure it fits properly */
-        .google-docs-preview {
-            width: 100%;
-            max-width: 460px;  /* Ensure it doesn't exceed container padding */
-            height: 400px; /* Adjust height */
-            margin-top: 20px;
-            border: none;
-      
-        }
-        
-        .google-docs-text {
-          font-size:14px;
-          
-          
-        }
-        small {
-    color: gray;
-    font-size: 10px;
-    font-weight: 200;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amazon Listing Optimizer - File Upload</title>
+  <style>
+    /* Your existing CSS (unchanged) */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
     }
-    </style>
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+    }
+    .video-frame {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .video-frame iframe {
+      width: 100%;
+      height: 315px;
+      border: none;
+      border-radius: 10px;
+    }
+    .google-docs-preview {
+      width: 100%;
+      max-width: 460px;
+      height: 400px;
+      margin-top: 20px;
+      border: none;
+    }
+    .google-docs-text {
+      font-size: 14px;
+    }
+    small {
+      color: gray;
+      font-size: 10px;
+      font-weight: 200;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+      margin-top: -10px;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>File Upload Form</h1>
-        
-         <div class="video-frame">
-            <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
-           </div>
-        <form action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
-           
-            <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
-           
-        
-            <input type="file" name="Scrape Doc" id="scrapeDoc" required>
-            
-            <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
-            
-            <input type="file" name="Keyword Doc" id="keywordDoc" required>
-            
-            <label for="amazonDoc">Upload Amazon Doc: </label>
-            <input type="file" name="Amazon Doc" id="amazonDoc" required>
-            
-            <label for="urls">Enter URLs:</label>
-            <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
-            
-            <label for="email">E-mail (where you want the output to be sent):</label>
-            <input type="email" name="Email" id="email" placeholder="you@example.com" required>
-            
-            <button type="submit">Upload Files</button>
-            <p class="note">* All files are required.</p>
-        </form>
+  <div class="container">
+    <h1>File Upload Form</h1>
 
-        
-        <p class="google-docs-text"><b>We’ve prepared a prompt you can use to help remove branded keywords from your Amazon keyword document. Simply copy and paste it into Claude.ai</b></p>
-        <!-- Google Docs Preview with adjusted size -->
-        <iframe class="google-docs-preview"
-            src="https://docs.google.com/viewer?url=https://docs.google.com/document/d/1brOu-JjdwELbU4yMSvMPoQjXSTs9cVgc/export?format=pdf&embedded=true&zoom=100"
-            allowfullscreen 
-            allow="download"
-            width="100%" 
-            height="400px">
-        </iframe>
-
-     
+    <div class="video-frame">
+      <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
     </div>
+
+    <form id="uploadForm" action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
+      <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
+      <input type="file" name="Scrape Doc" id="scrapeDoc" required />
+      <div id="scrapeError" class="error"></div>
+
+      <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
+      <input type="file" name="Keyword Doc" id="keywordDoc" required />
+      <div id="keywordError" class="error"></div>
+
+      <label for="amazonDoc">Upload Amazon Doc:</label>
+      <input type="file" name="Amazon Doc" id="amazonDoc" required />
+
+      <label for="urls">Enter URLs:</label>
+      <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
+
+      <label for="email">E-mail (where you want the output to be sent):</label>
+      <input type="email" name="Email" id="email" placeholder="you@example.com" required />
+
+      <button type="submit">Upload Files</button>
+      <p class="note">* All files are required.</p>
+    </form>
+
+    <p class="google-docs-text">
+      <b>We’ve prepared a prompt you can use to help remove branded keywords from your Amazon keyword document. Simply copy and paste it into Claude.ai</b>
+    </p>
+    <iframe class="google-docs-preview"
+      src="https://docs.google.com/viewer?url=https://docs.google.com/document/d/1brOu-JjdwELbU4yMSvMPoQjXSTs9cVgc/export?format=pdf&embedded=true&zoom=100"
+      allowfullscreen allow="download">
+    </iframe>
+  </div>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+      const scrapeFile = document.getElementById('scrapeDoc').files[0];
+      const keywordFile = document.getElementById('keywordDoc').files[0];
+
+      let hasError = false;
+
+      const isCsv = file => file && file.name.toLowerCase().endsWith('.csv');
+
+      // Clear previous errors
+      document.getElementById('scrapeError').textContent = '';
+      document.getElementById('keywordError').textContent = '';
+
+      if (!isCsv(scrapeFile)) {
+        document.getElementById('scrapeError').textContent = 'Scrape Doc must be a .csv file';
+        hasError = true;
+      }
+
+      if (!isCsv(keywordFile)) {
+        document.getElementById('keywordError').textContent = 'Keyword Doc must be a .csv file';
+        hasError = true;
+      }
+
+      if (hasError) {
+        e.preventDefault();
+      }
+    });
+  </script>
 </body>
 </html>
