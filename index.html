@@ -81,27 +81,32 @@
       margin-top: -10px;
       margin-bottom: 10px;
     }
-    
-    .contact-info {
-  margin-top: 15px;
-  margin-bottom: 20px;
-  font-size: 0.95em;
-  color: #444;
-  line-height: 1.2;
-}
 
-.contact-info a {
-  color: #0073e6;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.contact-info a:hover {
-  text-decoration: underline;
-}
-
-    
-    
+    /* Popup styles */
+    #popupModal {
+      display: none;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+    }
+    #popupContent {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      width: 400px;
+      text-align: center;
+    }
+    .gmail-account {
+      font-weight: 600;
+    }
+    .gmail-text {
+      font-size:14px;
+    }
 
   </style>
 </head>
@@ -113,96 +118,106 @@
       <iframe src="https://www.youtube.com/embed/XTtYCQEDWfo" allowfullscreen></iframe>
     </div>
 
-    <!-- ... your previous code ... -->
+    <form id="uploadForm" action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
+      <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
+      <input type="file" name="Scrape Doc" id="scrapeDoc" required />
+      <div id="scrapeError" class="error"></div>
 
-<form id="uploadForm" action="https://amzbrain.app.n8n.cloud/webhook/amzbrain" method="POST" enctype="multipart/form-data">
-  <label for="scrapeDoc">Upload Scrape Doc: <small>(upload CSV only)</small></label>
-  <input type="file" name="Scrape Doc" id="scrapeDoc" required />
-  <div id="scrapeError" class="error"></div>
+      <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
+      <input type="file" name="Keyword Doc" id="keywordDoc" required />
+      <div id="keywordError" class="error"></div>
 
-  <label for="keywordDoc">Upload Keyword Doc: <small>(upload CSV only)</small></label>
-  <input type="file" name="Keyword Doc" id="keywordDoc" required />
-  <div id="keywordError" class="error"></div>
+      <label for="amazonDoc">Upload Amazon Doc:</label>
+      <input type="file" name="Amazon Doc" id="amazonDoc" required />
 
-  <label for="amazonDoc">Upload Amazon Doc:</label>
-  <input type="file" name="Amazon Doc" id="amazonDoc" required />
+      <label for="urls">Enter URLs:</label>
+      <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
+      <div id="urlError" class="error"></div>
 
-  <label for="urls">Enter URLs:</label>
-  <textarea name="URLs" id="urls" rows="4" placeholder="Enter URLs here, one per line"></textarea>
-  <div id="urlError" class="error"></div>
+      <label for="email">E-mail:   <small>(where you want the output to be sent)</small></label>
+      <input type="email" name="Email" id="email" placeholder="you@example.com" required />
+      <div id="emailError" class="error"></div>
 
-  <label for="email">E-mail (where you want the output to be sent):</label>
-  <input type="email" name="Email" id="email" placeholder="you@example.com" required />
-  <div id="emailError" class="error"></div>
+      <button type="submit">Upload Files</button>
+      <p class="note">* All files are required.</p>
+    </form>
 
-  <button type="submit">Upload Files</button>
-  <p class="note">* All files are required.</p>
-<p class="contact-info">
-  If you have any questions, please feel free to contact 
-  <a href="mailto:dena@amzoptimized.com">dena@amzoptimized.com</a>.
-</p>
-
-
-</form>
-
-
-
-    <p class="google-docs-text">
-      <b>We’ve prepared a guide on how to use the tool and a prompt you can use to help remove branded keywords from your Amazon keyword document. Simply copy and paste it into Claude.ai</b>
+    <p class="contact-info">
+      If you have any questions, please feel free to contact 
+      <a href="mailto:dena@amzoptimized.com">dena@amzoptimized.com</a>.
     </p>
-    <iframe class="google-docs-preview"
-      src="https://docs.google.com/viewer?url=https://docs.google.com/document/d/1brOu-JjdwELbU4yMSvMPoQjXSTs9cVgc/export?format=pdf&embedded=true&zoom=100"
-      allowfullscreen allow="download">
-    </iframe>
+
+    <!-- No tooltip now; the message is just displayed in the popup -->
   </div>
 
-<script>
-  document.getElementById('uploadForm').addEventListener('submit', function (e) {
-    const scrapeFile = document.getElementById('scrapeDoc').files[0];
-    const keywordFile = document.getElementById('keywordDoc').files[0];
-    const urlField = document.getElementById('urls');
-    const emailField = document.getElementById('email');
+  <!-- Modal for the popup -->
+  <div id="popupModal">
+    <div id="popupContent">
+      <p class='gmail-account'>Please use a Gmail account</p>
+      <p class="gmail-text">For the best experience, we recommend using a Gmail account. You'll receive editable Google files, and since Google’s policy requires Google accounts for access, kindly ensure you’re using a Gmail ID. Thank you!</p>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
 
-    let hasError = false;
+  <script>
+    // Show the popup when the page loads
+    window.onload = function() {
+      document.getElementById("popupModal").style.display = "flex";
+    };
 
-    const isCsv = file => file && file.name.toLowerCase().endsWith('.csv');
-    const isValidEmail = email =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-
-    // Clear previous errors
-    document.getElementById('scrapeError').textContent = '';
-    document.getElementById('keywordError').textContent = '';
-    document.getElementById('urlError').textContent = '';
-    document.getElementById('emailError').textContent = '';
-
-    // Scrape file check
-    if (!isCsv(scrapeFile)) {
-      document.getElementById('scrapeError').textContent = 'Scrape Doc must be a .csv file';
-      hasError = true;
+    // Close the popup
+    function closePopup() {
+      document.getElementById("popupModal").style.display = "none";
     }
 
-    // Keyword file check
-    if (!isCsv(keywordFile)) {
-      document.getElementById('keywordError').textContent = 'Keyword Doc must be a .csv file';
-      hasError = true;
-    }
+    // Form validation
+    document.getElementById('uploadForm').addEventListener('submit', function (e) {
+      const scrapeFile = document.getElementById('scrapeDoc').files[0];
+      const keywordFile = document.getElementById('keywordDoc').files[0];
+      const urlField = document.getElementById('urls');
+      const emailField = document.getElementById('email');
 
-    // URL field check (must not be empty or default)
-    if (!urlField.value.trim() || urlField.value.trim().toLowerCase() === 'enter urls here, one per line') {
-      document.getElementById('urlError').textContent = 'Please enter at least one URL';
-      hasError = true;
-    }
+      let hasError = false;
 
-    // Email validation
-    if (!emailField.value.trim() || !isValidEmail(emailField.value)) {
-      document.getElementById('emailError').textContent = 'Please enter a valid email address';
-      hasError = true;
-    }
+      const isCsv = file => file && file.name.toLowerCase().endsWith('.csv');
+      const isValidEmail = email =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
-    if (hasError) {
-      e.preventDefault(); // stop form submission
-    }
-  });
-</script>
+      // Clear previous errors
+      document.getElementById('scrapeError').textContent = '';
+      document.getElementById('keywordError').textContent = '';
+      document.getElementById('urlError').textContent = '';
+      document.getElementById('emailError').textContent = '';
+
+      // Scrape file check
+      if (!isCsv(scrapeFile)) {
+        document.getElementById('scrapeError').textContent = 'Scrape Doc must be a .csv file';
+        hasError = true;
+      }
+
+      // Keyword file check
+      if (!isCsv(keywordFile)) {
+        document.getElementById('keywordError').textContent = 'Keyword Doc must be a .csv file';
+        hasError = true;
+      }
+
+      // URL field check (must not be empty or default)
+      if (!urlField.value.trim() || urlField.value.trim().toLowerCase() === 'enter urls here, one per line') {
+        document.getElementById('urlError').textContent = 'Please enter at least one URL';
+        hasError = true;
+      }
+
+      // Email validation
+      const emailValue = emailField.value.trim();
+      if (!emailValue || !isValidEmail(emailValue) || !emailValue.includes("gmail.com")) {
+        document.getElementById('emailError').textContent = 'Please enter a valid Gmail address';
+        hasError = true;
+      }
+
+      if (hasError) {
+        e.preventDefault(); // stop form submission
+      }
+    });
+  </script>
 </body>
 </html>
